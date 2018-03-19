@@ -8,6 +8,7 @@ import App from './app';
 import '../css/reset.css';
 import '../css/modification.css';
 
+
 const application = document.getElementById('application');
 
 const render = Component =>

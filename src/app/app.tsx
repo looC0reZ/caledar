@@ -16,13 +16,16 @@ if ('userLanguage' in window.navigator) {
 
 console.log('language: %s', language);
 
+
 // > Main --------------------------------------------------------------------------------------------------------------
 interface MainProps {
 
 }
 
 interface MainState {
-    _DEBUG: boolean
+    _DEBUG: boolean,
+    month: string,
+    year: number
 }
 
 export default class App extends React.Component<MainProps, MainState> {
@@ -31,7 +34,10 @@ export default class App extends React.Component<MainProps, MainState> {
     constructor(props: MainProps) {
         super(props);
         this.state = {
-            _DEBUG: true
+            _DEBUG: true,
+            month: '',
+            year: 0,
+            nyear: 0
 
         };
 
@@ -51,7 +57,11 @@ export default class App extends React.Component<MainProps, MainState> {
             console.group('Main: -> componentWillMount');
             console.groupEnd();
         }
-
+        let date = new Date();
+        this.setState({
+            month: date.toLocaleString("ru", {month: "long"}),
+            year: date.getFullYear()
+        })
 
     }
 
@@ -113,6 +123,24 @@ export default class App extends React.Component<MainProps, MainState> {
         }
     }
 
+    larr_month_click = () => {
+        console.log("larr_month_click: %s", "leftm");
+    };
+    rarr_month_click = () => {
+        console.log("rarr_month_click: %s", "rightm");
+    };
+    larr_year_click = () => {
+        let date = new Date();
+        this.setState({
+            nyear: date.setFullYear(1945)
+        });
+
+        console.log("qweqwe: %i", this.state.nyear);
+        console.log("larr_year_click: %s", "lefty");
+    };
+    rarr_year_click = () => {
+        console.log("rarr_year_click: %s", "righty");
+    };
 
     public render() {
         if (this.state._DEBUG) {
@@ -122,7 +150,51 @@ export default class App extends React.Component<MainProps, MainState> {
             console.groupEnd();
         }
         return (
-            <div>
+            <div id="main">
+                <div id="title">
+                    <h1 className="h1_title">Календарь</h1>
+                </div>
+                <div id="menu">
+                    <div id="month">
+                        <a href="#" onClick={this.larr_month_click}>
+                            &larr;
+                        </a>
+                        <span>
+                            {
+                                this.state.month
+                            }
+                        </span>
+                        <a href="#" onClick={this.rarr_month_click}>
+                            &rarr;
+                        </a>
+                    </div>
+                    <div id="year">
+                        <a href="#" onClick={this.larr_year_click}>
+                            &larr;
+                        </a>
+                        <span>
+                            {
+                                this.state.year
+                            }
+                            </span>
+                        <a href="#" onClick={this.rarr_year_click}>
+                            &rarr;
+                        </a>
+                    </div>
+                </div>
+                <div id="body">
+                    <div id="calender">
+                        <ul>
+                            <li></li>
+                        </ul>
+
+                    </div>
+                    <div id="notes">
+                        <span></span>
+                        <textarea/>
+                        <button></button>
+                    </div>
+                </div>
 
             </div>
         );
